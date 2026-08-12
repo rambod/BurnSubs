@@ -1,0 +1,9 @@
+/target
+/dist
+/tools
+/.idea
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.burnsubs-part-*

@@ -1,0 +1,53 @@
+[package]
+name = "burnsubs"
+version = "1.0.0"
+edition = "2024"
+publish = false
+license = "MIT"
+readme = "README.md"
+description = "A cross-platform desktop app for burning SRT subtitles into video with automatic GPU acceleration."
+keywords = ["ffmpeg", "subtitles", "video", "gpu", "desktop"]
+categories = ["multimedia::video", "gui"]
+
+[[bin]]
+name = "BurnSubs"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = "1"
+directories = "6"
+
+eframe = {
+    version = "0.35",
+    default-features = false,
+    features = [
+        "glow",
+        "default_fonts",
+        "accesskit",
+        "wayland",
+        "x11"
+    ]
+}
+
+rfd = "0.17"
+
+serde = {
+    version = "1",
+    features = ["derive"]
+}
+
+serde_json = "1"
+tracing = "0.1"
+
+tracing-subscriber = {
+    version = "0.3",
+    features = [
+        "fmt",
+        "env-filter"
+    ]
+}
+
+[profile.release]
+strip = true
+lto = "thin"
+codegen-units = 1
