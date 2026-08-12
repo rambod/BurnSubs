@@ -3,6 +3,20 @@
 version = 4
 
 [[package]]
+name = "BurnSubs"
+version = "1.0.0"
+dependencies = [
+ "anyhow",
+ "directories",
+ "eframe",
+ "rfd",
+ "serde",
+ "serde_json",
+ "tracing",
+ "tracing-subscriber",
+]
+
+[[package]]
 name = "accesskit"
 version = "0.24.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -449,20 +463,6 @@ name = "bumpalo"
 version = "3.20.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "72f5acc6cb2ba439de613abc23857ec3d78374d8ed5ac84e9d11336e87da8649"
-
-[[package]]
-name = "burnsubs"
-version = "1.0.0"
-dependencies = [
- "anyhow",
- "directories",
- "eframe",
- "rfd",
- "serde",
- "serde_json",
- "tracing",
- "tracing-subscriber",
-]
 
 [[package]]
 name = "bytemuck"

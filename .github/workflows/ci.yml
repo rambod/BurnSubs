@@ -13,7 +13,7 @@ jobs:
     name: Format, lint, and test
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Install Linux build dependencies
         run: >-
           sudo apt-get update && sudo apt-get install -y
@@ -37,7 +37,7 @@ jobs:
         os: [windows-2022, ubuntu-24.04, macos-15-intel, macos-15]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Install Linux build dependencies
         if: runner.os == 'Linux'
         run: >-

@@ -10,17 +10,9 @@ on:
         description: Existing SemVer tag to build, such as v1.0.0
         required: true
         type: string
-      publish:
-        description: Publish the draft after all assets upload
-        required: true
-        default: false
-        type: boolean
 
 permissions:
   contents: write
-
-env:
-  RELEASE_TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
 
 jobs:
   build:
@@ -43,11 +35,13 @@ jobs:
             script: sh ./scripts/package-release.sh
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
-          ref: ${{ env.RELEASE_TAG }}
+          ref: ${{ inputs.tag || github.ref_name }}
       - name: Validate tag and package version
         shell: bash
+        env:
+          RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
         run: |
           package_version=$(sed -n 's/^version[[:space:]]*=[[:space:]]*"\([^"]*\)"/\1/p' Cargo.toml | head -n 1)
           test "v$package_version" = "$RELEASE_TAG" || {
@@ -85,9 +79,9 @@ jobs:
     needs: build
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
-          ref: ${{ env.RELEASE_TAG }}
+          ref: ${{ inputs.tag || github.ref_name }}
       - uses: actions/download-artifact@v4
         with:
           pattern: release-*
@@ -96,6 +90,7 @@ jobs:
       - name: Create or update draft and upload assets
         env:
           GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
         run: |
           if ! gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
             gh release create "$RELEASE_TAG" \
@@ -108,8 +103,3 @@ jobs:
           gh release upload "$RELEASE_TAG" dist/* \
             --repo "$GITHUB_REPOSITORY" \
             --clobber
-      - name: Publish release
-        if: github.event_name == 'workflow_dispatch' && inputs.publish
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh release edit "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --draft=false

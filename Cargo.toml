@@ -1,5 +1,5 @@
 [package]
-name = "burnsubs"
+name = "BurnSubs"
 version = "1.0.0"
 edition = "2024"
 publish = false

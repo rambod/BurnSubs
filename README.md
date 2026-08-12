@@ -117,7 +117,7 @@ cargo test --all-targets --locked
 The GitHub Actions release workflow builds native x86-64 Windows and Linux archives plus Intel and
 Apple Silicon macOS archives. Push a SemVer tag such as `v1.0.0`; the workflow creates or updates a
 **draft** release and uploads archives and SHA-256 files. Review the draft, then publish it from
-GitHub, or run the workflow manually with **Publish release** enabled.
+GitHub. The workflow can also be run manually for an existing tag to rebuild its draft assets.
 
 A draft can be updated repeatedly without creating another release. For a mutable published release,
 additional assets can also be attached later. Rebuilding a version after users have downloaded it is
