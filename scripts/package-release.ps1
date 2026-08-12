@@ -34,7 +34,8 @@ if (Test-Path -LiteralPath $archive) {
 
 Compress-Archive -Path $stage -DestinationPath $archive -CompressionLevel Optimal
 $hash = (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant()
-"$hash  $([IO.Path]::GetFileName($archive))" |
-    Set-Content -LiteralPath "$archive.sha256" -Encoding utf8NoBOM
+$checksum = "$hash  $([IO.Path]::GetFileName($archive))$([Environment]::NewLine)"
+$utf8WithoutBom = New-Object System.Text.UTF8Encoding($false)
+[IO.File]::WriteAllText("$archive.sha256", $checksum, $utf8WithoutBom)
 
 Write-Host "Created $archive"
